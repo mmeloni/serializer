@@ -84,7 +84,11 @@ class DoctrineObjectConstructor implements ObjectConstructorInterface
 
         // Entity update, load it from database
         $object = $objectManager->find($metadata->name, $identifierList);
-
+        
+        if(null === $object) {
+                return $this->fallbackConstructor->construct($visitor, $metadata, $data, $type, $context);
+        }
+        
         $objectManager->initializeObject($object);
 
         return $object;
